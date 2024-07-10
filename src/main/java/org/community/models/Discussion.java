@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "discussion")
 public class Discussion {
     private int id;
     private String heading;
@@ -16,18 +17,19 @@ public class Discussion {
     private User creator_id;
     private LocalDateTime close_time;
     private List<Comment> comments = new ArrayList<>();
+    private Community community;
 
     public Discussion() {
     }
 
-    public Discussion(int id, String heading, String description, LocalDateTime create_time, User creator_id, LocalDateTime close_time, List<Comment> comments) {
-        this.id = id;
+    public Discussion(String heading, String description, LocalDateTime create_time, User creator_id, LocalDateTime close_time, List<Comment> comments, Community community) {
         this.heading = heading;
         this.description = description;
         this.create_time = create_time;
         this.creator_id = creator_id;
         this.close_time = close_time;
         this.comments = comments;
+        this.community = community;
     }
 
     @Id
@@ -65,7 +67,8 @@ public class Discussion {
     public void setCreate_time(LocalDateTime create_time) {
         this.create_time = create_time;
     }
-    @Column(name = "creator_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "creator_id", referencedColumnName = "id")
     public User getCreator_id() {
         return creator_id;
     }
@@ -82,12 +85,22 @@ public class Discussion {
         this.close_time = close_time;
     }
 
-    @Column(name = "comments")
+    @OneToMany(mappedBy = "discussion_id", cascade = CascadeType.ALL)
     public List<Comment> getComments() {
         return comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "community_id", referencedColumnName = "id", nullable = false)
+    public Community getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(Community community) {
+        this.community = community;
     }
 }

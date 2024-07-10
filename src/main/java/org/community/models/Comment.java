@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "comment")
 public class Comment {
     private int id;
     private String text;
@@ -16,8 +17,7 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(int id, String text, User author_id, Discussion discussion_id, LocalDateTime comment_time) {
-        this.id = id;
+    public Comment(String text, User author_id, Discussion discussion_id, LocalDateTime comment_time) {
         this.text = text;
         this.author_id = author_id;
         this.discussion_id = discussion_id;
@@ -43,7 +43,8 @@ public class Comment {
         this.text = text;
     }
 
-    @Column(name = "author_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     public User getAuthor_id() {
         return author_id;
     }
@@ -52,7 +53,8 @@ public class Comment {
         this.author_id = author_id;
     }
 
-    @Column(name = "discussion_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "discussion_id", referencedColumnName = "id", nullable = false)
     public Discussion getDiscussion_id() {
         return discussion_id;
     }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "message")
 public class Message {
     private int id;
     private User sender;
@@ -34,7 +35,8 @@ public class Message {
         this.id = id;
     }
 
-    @Column(name = "sender_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "sender_id", nullable = false)
     public User getSender() {
         return sender;
     }
@@ -43,7 +45,8 @@ public class Message {
         this.sender = sender;
     }
 
-    @Column(name = "receiver_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "receiver_id", nullable = false)
     public User getReceiver() {
         return receiver;
     }

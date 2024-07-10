@@ -3,30 +3,35 @@ package org.community.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "game")
 public class Game {
     private int id;
     private String name;
-    private Genre genre;
+    private Set<Genre>genres = new HashSet<>();
     private String description;
     private LocalDateTime release_date;
     private float rating;
+    private Community community;
+    private List<Feedback> feedbacks = new ArrayList<>();
 
     public Game() {
     }
 
-    public Game(String name, Genre genre, String description, LocalDateTime release_date) {
+    public Game(String name, String description, LocalDateTime release_date) {
         this.name = name;
-        this.genre = genre;
         this.description = description;
         this.release_date = release_date;
     }
 
-    public Game(String name, Genre genre, String description, LocalDateTime release_date, float rating) {
+    public Game(String name, String description, LocalDateTime release_date, float rating) {
         this.name = name;
-        this.genre = genre;
         this.description = description;
         this.release_date = release_date;
         this.rating = rating;
@@ -51,13 +56,18 @@ public class Game {
         this.name = name;
     }
 
-    @Column(name = "genre", nullable = false)
-    public Genre getGenre() {
-        return genre;
+    @ManyToMany
+    @JoinTable(
+            name = "game_genre",
+            joinColumns = @JoinColumn(name = "game_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    public Set<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
     @Column(name = "description", nullable = false)
@@ -85,5 +95,23 @@ public class Game {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    @OneToOne(mappedBy = "game_name", cascade = CascadeType.ALL)
+    public Community getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(Community community) {
+        this.community = community;
+    }
+
+    @OneToMany(mappedBy = "game_id", cascade = CascadeType.ALL)
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 }

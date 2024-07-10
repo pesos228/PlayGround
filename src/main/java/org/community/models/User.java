@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "client")
 public class User {
 
     private int id;
@@ -18,11 +19,14 @@ public class User {
     private List<Game> list_games = new ArrayList<>();
     private List<Message> sent_messages = new ArrayList<>();
     private List<Message> received_messages = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
+    private List<Discussion> discussions = new ArrayList<>();
+    private List<Feedback> feedbacks = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String email, String password, LocalDateTime reg_time, List<User> list_friends, List<Game> list_games, List<Message> sent_messages, List<Message> received_messages) {
+    public User(String email, String password, LocalDateTime reg_time, List<User> list_friends, List<Game> list_games, List<Message> sent_messages, List<Message> received_messages, List<Comment> comments, List<Discussion> discussions, List<Feedback> feedbacks) {
         this.email = email;
         this.password = password;
         this.reg_time = reg_time;
@@ -30,6 +34,9 @@ public class User {
         this.list_games = list_games;
         this.sent_messages = sent_messages;
         this.received_messages = received_messages;
+        this.comments = comments;
+        this.discussions = discussions;
+        this.feedbacks = feedbacks;
     }
 
     @Id
@@ -67,7 +74,12 @@ public class User {
     public void setReg_time(LocalDateTime reg_time) {
         this.reg_time = reg_time;
     }
-    @Column(name = "list_friends")
+    @ManyToMany
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
     public List<User> getList_friends() {
         return list_friends;
     }
@@ -76,7 +88,12 @@ public class User {
         this.list_friends = list_friends;
     }
 
-    @Column(name = "list_games")
+    @ManyToMany
+    @JoinTable(
+            name = "user_games",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
     public List<Game> getList_games() {
         return list_games;
     }
@@ -85,7 +102,7 @@ public class User {
         this.list_games = list_games;
     }
 
-    @Column(name = "sent_messages")
+    @OneToMany(mappedBy = "sender")
     public List<Message> getSent_messages() {
         return sent_messages;
     }
@@ -94,12 +111,39 @@ public class User {
         this.sent_messages = sent_messages;
     }
 
-    @Column(name = "received_messages")
+    @OneToMany(mappedBy = "receiver")
     public List<Message> getReceived_messages() {
         return received_messages;
     }
 
     public void setReceived_messages(List<Message> received_messages) {
         this.received_messages = received_messages;
+    }
+
+    @OneToMany(mappedBy = "author_id")
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @OneToMany(mappedBy = "creator_id")
+    public List<Discussion> getDiscussions() {
+        return discussions;
+    }
+
+    public void setDiscussions(List<Discussion> discussions) {
+        this.discussions = discussions;
+    }
+
+    @OneToMany(mappedBy = "user_id")
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 }
