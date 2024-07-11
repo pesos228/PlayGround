@@ -1,39 +1,27 @@
-package org.community.models;
+package org.community.entities;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "message")
-public class Message {
-    private int id;
+public class Message extends BaseEntity {
     private User sender;
     private User receiver;
     private String text;
-    private LocalDateTime message_time;
+    private LocalDateTime messageTime;
 
-    public Message() {
+    protected Message() {
     }
 
-    public Message(int id, User sender, User receiver, String text, LocalDateTime message_time) {
-        this.id = id;
+    public Message( User sender, User receiver, String text, LocalDateTime messageTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.text = text;
-        this.message_time = message_time;
+        this.messageTime = messageTime;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
@@ -65,11 +53,11 @@ public class Message {
     }
 
     @Column(name = "message_time", nullable = false)
-    public LocalDateTime getMessage_time() {
-        return message_time;
+    public LocalDateTime getMessageTime() {
+        return messageTime;
     }
 
-    public void setMessage_time(LocalDateTime message_time) {
-        this.message_time = message_time;
+    public void setMessageTime(LocalDateTime messageTime) {
+        this.messageTime = messageTime;
     }
 }

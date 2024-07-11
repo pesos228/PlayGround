@@ -1,4 +1,4 @@
-package org.community.models;
+package org.community.entities;
 
 import jakarta.persistence.*;
 
@@ -7,47 +7,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "client")
-public class User {
+public class User extends BaseEntity {
 
-    private int id;
     private String email;
     private String password;
-    private LocalDateTime reg_time;
-    private List<User> list_friends = new ArrayList<>();
-    private List<Game> list_games = new ArrayList<>();
-    private List<Message> sent_messages = new ArrayList<>();
-    private List<Message> received_messages = new ArrayList<>();
+    private LocalDateTime regTime;
+    private List<User> listFriends = new ArrayList<>();
+    private List<Game> listGames = new ArrayList<>();
+    private List<Message> sentMessages = new ArrayList<>();
+    private List<Message> receivedMessages = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
     private List<Discussion> discussions = new ArrayList<>();
     private List<Feedback> feedbacks = new ArrayList<>();
 
-    public User() {
+    protected User() {
     }
 
-    public User(String email, String password, LocalDateTime reg_time, List<User> list_friends, List<Game> list_games, List<Message> sent_messages, List<Message> received_messages, List<Comment> comments, List<Discussion> discussions, List<Feedback> feedbacks) {
+    public User(String email, String password, LocalDateTime regTime, List<User> listFriends, List<Game> listGames, List<Message> sentMessages, List<Message> receivedMessages, List<Comment> comments, List<Discussion> discussions, List<Feedback> feedbacks) {
         this.email = email;
         this.password = password;
-        this.reg_time = reg_time;
-        this.list_friends = list_friends;
-        this.list_games = list_games;
-        this.sent_messages = sent_messages;
-        this.received_messages = received_messages;
+        this.regTime = regTime;
+        this.listFriends = listFriends;
+        this.listGames = listGames;
+        this.sentMessages = sentMessages;
+        this.receivedMessages = receivedMessages;
         this.comments = comments;
         this.discussions = discussions;
         this.feedbacks = feedbacks;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
     @Column(name = "email", nullable = false, unique = true)
     public String getEmail() {
         return email;
@@ -67,12 +56,12 @@ public class User {
     }
 
     @Column(name = "reg_time", nullable = false)
-    public LocalDateTime getReg_time() {
-        return reg_time;
+    public LocalDateTime getRegTime() {
+        return regTime;
     }
 
-    public void setReg_time(LocalDateTime reg_time) {
-        this.reg_time = reg_time;
+    public void setRegTime(LocalDateTime regTime) {
+        this.regTime = regTime;
     }
     @ManyToMany
     @JoinTable(
@@ -80,12 +69,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
-    public List<User> getList_friends() {
-        return list_friends;
+    public List<User> getListFriends() {
+        return listFriends;
     }
 
-    public void setList_friends(List<User> list_friends) {
-        this.list_friends = list_friends;
+    public void setListFriends(List<User> listFriends) {
+        this.listFriends = listFriends;
     }
 
     @ManyToMany
@@ -94,33 +83,33 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
-    public List<Game> getList_games() {
-        return list_games;
+    public List<Game> getListGames() {
+        return listGames;
     }
 
-    public void setList_games(List<Game> list_games) {
-        this.list_games = list_games;
+    public void setListGames(List<Game> listGames) {
+        this.listGames = listGames;
     }
 
     @OneToMany(mappedBy = "sender")
-    public List<Message> getSent_messages() {
-        return sent_messages;
+    public List<Message> getSentMessages() {
+        return sentMessages;
     }
 
-    public void setSent_messages(List<Message> sent_messages) {
-        this.sent_messages = sent_messages;
+    public void setSentMessages(List<Message> sentMessages) {
+        this.sentMessages = sentMessages;
     }
 
     @OneToMany(mappedBy = "receiver")
-    public List<Message> getReceived_messages() {
-        return received_messages;
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
     }
 
-    public void setReceived_messages(List<Message> received_messages) {
-        this.received_messages = received_messages;
+    public void setReceivedMessages(List<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
 
-    @OneToMany(mappedBy = "author_id")
+    @OneToMany(mappedBy = "authorId")
     public List<Comment> getComments() {
         return comments;
     }
@@ -129,7 +118,7 @@ public class User {
         this.comments = comments;
     }
 
-    @OneToMany(mappedBy = "creator_id")
+    @OneToMany(mappedBy = "creatorId")
     public List<Discussion> getDiscussions() {
         return discussions;
     }
@@ -138,7 +127,7 @@ public class User {
         this.discussions = discussions;
     }
 
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "userId")
     public List<Feedback> getFeedbacks() {
         return feedbacks;
     }

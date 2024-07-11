@@ -1,4 +1,4 @@
-package org.community.models;
+package org.community.entities;
 
 import jakarta.persistence.*;
 
@@ -9,43 +9,32 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "game")
-public class Game {
-    private int id;
+public class Game extends BaseEntity {
     private String name;
     private Set<Genre>genres = new HashSet<>();
     private String description;
-    private LocalDateTime release_date;
+    private LocalDateTime releaseDate;
     private float rating;
     private Community community;
     private List<Feedback> feedbacks = new ArrayList<>();
 
-    public Game() {
+    protected Game() {
     }
 
-    public Game(String name, String description, LocalDateTime release_date) {
+    public Game(String name, String description, LocalDateTime releaseDate) {
         this.name = name;
         this.description = description;
-        this.release_date = release_date;
+        this.releaseDate = releaseDate;
     }
 
-    public Game(String name, String description, LocalDateTime release_date, float rating) {
+    public Game(String name, String description, LocalDateTime releaseDate, float rating) {
         this.name = name;
         this.description = description;
-        this.release_date = release_date;
+        this.releaseDate = releaseDate;
         this.rating = rating;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Column(name = "name", nullable = false, unique = true)
     public String getName() {
@@ -80,12 +69,12 @@ public class Game {
     }
 
     @Column(name = "release_date", nullable = false)
-    public LocalDateTime getRelease_date() {
-        return release_date;
+    public LocalDateTime getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelease_date(LocalDateTime release_date) {
-        this.release_date = release_date;
+    public void setReleaseDate(LocalDateTime releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     @Column(name = "rating")
@@ -97,7 +86,7 @@ public class Game {
         this.rating = rating;
     }
 
-    @OneToOne(mappedBy = "game_name", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "gameName", cascade = CascadeType.ALL)
     public Community getCommunity() {
         return community;
     }
@@ -106,7 +95,7 @@ public class Game {
         this.community = community;
     }
 
-    @OneToMany(mappedBy = "game_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gameId", cascade = CascadeType.ALL)
     public List<Feedback> getFeedbacks() {
         return feedbacks;
     }

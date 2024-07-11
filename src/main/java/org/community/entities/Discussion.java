@@ -1,4 +1,4 @@
-package org.community.models;
+package org.community.entities;
 
 import jakarta.persistence.*;
 
@@ -7,40 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "discussion")
-public class Discussion {
-    private int id;
+public class Discussion extends BaseEntity {
     private String heading;
     private String description;
-    private LocalDateTime create_time;
-    private User creator_id;
-    private LocalDateTime close_time;
+    private LocalDateTime createTime;
+    private User creatorId;
+    private LocalDateTime closeTime;
     private List<Comment> comments = new ArrayList<>();
     private Community community;
 
-    public Discussion() {
+    protected Discussion() {
     }
 
-    public Discussion(String heading, String description, LocalDateTime create_time, User creator_id, LocalDateTime close_time, List<Comment> comments, Community community) {
+    public Discussion(String heading, String description, LocalDateTime createTime, User creatorId, LocalDateTime closeTime, List<Comment> comments, Community community) {
         this.heading = heading;
         this.description = description;
-        this.create_time = create_time;
-        this.creator_id = creator_id;
-        this.close_time = close_time;
+        this.createTime = createTime;
+        this.creatorId = creatorId;
+        this.closeTime = closeTime;
         this.comments = comments;
         this.community = community;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Column(name = "heading", nullable = false)
     public String getHeading() {
@@ -60,32 +49,32 @@ public class Discussion {
     }
 
     @Column(name = "create_time", nullable = false)
-    public LocalDateTime getCreate_time() {
-        return create_time;
+    public LocalDateTime getCreateTime() {
+        return createTime;
     }
 
-    public void setCreate_time(LocalDateTime create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
     @ManyToOne
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
-    public User getCreator_id() {
-        return creator_id;
+    public User getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreator_id(User creator_id) {
-        this.creator_id = creator_id;
+    public void setCreatorId(User creatorId) {
+        this.creatorId = creatorId;
     }
     @Column(name = "close_time")
-    public LocalDateTime getClose_time() {
-        return close_time;
+    public LocalDateTime getCloseTime() {
+        return closeTime;
     }
 
-    public void setClose_time(LocalDateTime close_time) {
-        this.close_time = close_time;
+    public void setCloseTime(LocalDateTime closeTime) {
+        this.closeTime = closeTime;
     }
 
-    @OneToMany(mappedBy = "discussion_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "discussionId", cascade = CascadeType.ALL)
     public List<Comment> getComments() {
         return comments;
     }

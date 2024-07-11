@@ -1,4 +1,4 @@
-package org.community.models;
+package org.community.entities;
 
 import jakarta.persistence.*;
 
@@ -6,14 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "genre")
-public class Genre {
-    private int id;
+public class Genre extends BaseEntity {
     private String name;
     private Set<Game> games = new HashSet<>();
 
-    public Genre() {
+    protected Genre() {
     }
 
     public Genre(String name, Set<Game> games) {
@@ -21,20 +19,10 @@ public class Genre {
         this.games = games;
     }
 
-
     public Genre(String name) {
         this.name = name;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Column(name = "name", nullable = false, unique = true)
     public String getName() {
