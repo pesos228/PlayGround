@@ -12,7 +12,7 @@ public class Discussion extends BaseEntity {
     private String heading;
     private String description;
     private LocalDateTime createTime;
-    private User creatorId;
+    private User creator;
     private LocalDateTime closeTime;
     private List<Comment> comments = new ArrayList<>();
     private Community community;
@@ -20,11 +20,11 @@ public class Discussion extends BaseEntity {
     protected Discussion() {
     }
 
-    public Discussion(String heading, String description, LocalDateTime createTime, User creatorId, LocalDateTime closeTime, List<Comment> comments, Community community) {
+    public Discussion(String heading, String description, LocalDateTime createTime, User creator, LocalDateTime closeTime, List<Comment> comments, Community community) {
         this.heading = heading;
         this.description = description;
         this.createTime = createTime;
-        this.creatorId = creatorId;
+        this.creator = creator;
         this.closeTime = closeTime;
         this.comments = comments;
         this.community = community;
@@ -58,12 +58,12 @@ public class Discussion extends BaseEntity {
     }
     @ManyToOne
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
-    public User getCreatorId() {
-        return creatorId;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setCreatorId(User creatorId) {
-        this.creatorId = creatorId;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
     @Column(name = "close_time")
     public LocalDateTime getCloseTime() {
@@ -74,7 +74,7 @@ public class Discussion extends BaseEntity {
         this.closeTime = closeTime;
     }
 
-    @OneToMany(mappedBy = "discussionId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL)
     public List<Comment> getComments() {
         return comments;
     }

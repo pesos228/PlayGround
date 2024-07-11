@@ -7,25 +7,25 @@ import java.util.List;
 @Entity
 @Table(name = "community")
 public class Community extends BaseEntity {
-    private Game gameName;
+    private Game game;
     private List<Discussion> discussions = new ArrayList<>();
     protected Community() {
     }
 
-    public Community(Game gameName, List<Discussion> discussions) {
-        this.gameName = gameName;
+    public Community(Game game, List<Discussion> discussions) {
+        this.game = game;
         this.discussions = discussions;
     }
 
 
     @OneToOne
     @JoinColumn(name = "game_id", referencedColumnName = "id")
-    public Game getGameName() {
-        return gameName;
+    public Game getGame() {
+        return game;
     }
 
-    public void setGameName(Game gameName) {
-        this.gameName = gameName;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)

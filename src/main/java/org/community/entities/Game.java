@@ -86,7 +86,7 @@ public class Game extends BaseEntity {
         this.rating = rating;
     }
 
-    @OneToOne(mappedBy = "gameName", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     public Community getCommunity() {
         return community;
     }
@@ -95,7 +95,7 @@ public class Game extends BaseEntity {
         this.community = community;
     }
 
-    @OneToMany(mappedBy = "gameId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     public List<Feedback> getFeedbacks() {
         return feedbacks;
     }

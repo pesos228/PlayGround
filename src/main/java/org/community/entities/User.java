@@ -109,7 +109,7 @@ public class User extends BaseEntity {
         this.receivedMessages = receivedMessages;
     }
 
-    @OneToMany(mappedBy = "authorId")
+    @OneToMany(mappedBy = "author")
     public List<Comment> getComments() {
         return comments;
     }
@@ -118,7 +118,7 @@ public class User extends BaseEntity {
         this.comments = comments;
     }
 
-    @OneToMany(mappedBy = "creatorId")
+    @OneToMany(mappedBy = "creator")
     public List<Discussion> getDiscussions() {
         return discussions;
     }
@@ -127,7 +127,7 @@ public class User extends BaseEntity {
         this.discussions = discussions;
     }
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     public List<Feedback> getFeedbacks() {
         return feedbacks;
     }

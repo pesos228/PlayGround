@@ -5,38 +5,39 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "feedback")
 public class Feedback extends BaseEntity {
-    private User userId;
-    private Game gameId;
+    private User user;
+    private Game game;
     private String text;
+    private float rating;
 
     protected Feedback() {
     }
 
-    public Feedback(User userId, Game gameId, String text) {
-        this.userId = userId;
-        this.gameId = gameId;
+    public Feedback(User user, Game game, String text, float rating) {
+        this.user = user;
+        this.game = game;
         this.text = text;
+        this.rating = rating;
     }
-
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
     @ManyToOne
     @JoinColumn(name = "game_id", referencedColumnName = "id")
-    public Game getGameId() {
-        return gameId;
+    public Game getGame() {
+        return game;
     }
 
-    public void setGameId(Game gameId) {
-        this.gameId = gameId;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public String getText() {
@@ -45,5 +46,14 @@ public class Feedback extends BaseEntity {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Column(name = "rating", nullable = false)
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }

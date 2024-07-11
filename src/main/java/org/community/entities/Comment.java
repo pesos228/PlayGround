@@ -8,17 +8,17 @@ import java.time.LocalDateTime;
 @Table(name = "comment")
 public class Comment extends BaseEntity {
     private String text;
-    private User authorId;
-    private Discussion discussionId;
+    private User author;
+    private Discussion discussion;
     private LocalDateTime commentTime;
 
     protected Comment() {
     }
 
-    public Comment(String text, User authorId, Discussion discussionId, LocalDateTime commentTime) {
+    public Comment(String text, User author, Discussion discussion, LocalDateTime commentTime) {
         this.text = text;
-        this.authorId = authorId;
-        this.discussionId = discussionId;
+        this.author = author;
+        this.discussion = discussion;
         this.commentTime = commentTime;
     }
 
@@ -34,22 +34,22 @@ public class Comment extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    public User getAuthorId() {
-        return authorId;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(User authorId) {
-        this.authorId = authorId;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     @ManyToOne
     @JoinColumn(name = "discussion_id", referencedColumnName = "id", nullable = false)
-    public Discussion getDiscussionId() {
-        return discussionId;
+    public Discussion getDiscussion() {
+        return discussion;
     }
 
-    public void setDiscussionId(Discussion discussionId) {
-        this.discussionId = discussionId;
+    public void setDiscussion(Discussion discussion) {
+        this.discussion = discussion;
     }
 
     @Column(name = "comment_time", nullable = false)
