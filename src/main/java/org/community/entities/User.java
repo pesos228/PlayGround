@@ -135,4 +135,11 @@ public class User extends BaseEntity {
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
+
+    public void addFriend(User friend){
+        listFriends.add(friend);
+    }
+    public void removeFriend(User friend){
+        listFriends.remove(friend);
+    }
 }
