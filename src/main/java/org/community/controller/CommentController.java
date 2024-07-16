@@ -20,12 +20,12 @@ public class CommentController {
     }
 
     @PostMapping
-    private void addComment(@RequestBody CommentDtoAdd commentDtoAdd){
+    public void addComment(@RequestBody CommentDtoAdd commentDtoAdd){
         commentService.add(commentDtoAdd);
     }
 
     @GetMapping("/{discussionId}")
-    private List<CommentDtoList> getCommentsList(@PathVariable int discussionId){
+    public List<CommentDtoList> getCommentsList(@PathVariable int discussionId){
         return commentService.commentsOfDiscussion(discussionId);
     }
 
