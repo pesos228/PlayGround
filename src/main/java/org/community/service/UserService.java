@@ -1,33 +1,46 @@
 package org.community.service;
 
+import org.community.dto.UserDtoFriendsList;
+import org.community.dto.GameDtoName;
+import org.community.dto.UserDtoList;
+import org.community.dto.UserDtoRegister;
 import org.community.entities.Game;
-import org.community.entities.Genre;
 import org.community.entities.User;
+import org.community.exceptions.UserAlreadyExistsException;
+import org.community.exceptions.UserAlreadyFriendsException;
+import org.community.exceptions.UserNotFoundException;
+import org.community.exceptions.UsersNotFriendsException;
 import org.community.repository.impl.UserRepositoryImpl;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService extends AbstractService {
 
     private final UserRepositoryImpl userRepository;
 
     @Autowired
-    public UserService(UserRepositoryImpl userRepository) {
+    public UserService(UserRepositoryImpl userRepository, ModelMapper modelMapper) {
+        super(modelMapper);
         this.userRepository = userRepository;
     }
 
 
     @Transactional
-    public void save(User user){
+    public void save(UserDtoRegister userDtoRegister){
+        User user = convertToEntity(userDtoRegister, User.class);
         User userTest = userRepository.findByEmail(user.getEmail());
         if (userTest == null){
+            user.setRegTime(LocalDateTime.now());
             userRepository.save(user);
         }else{
-            throw new IllegalArgumentException("User with "+ user.getEmail() +" mail already exists");
+            throw new UserAlreadyExistsException(user.getEmail());
         }
     }
 
@@ -40,10 +53,13 @@ public class UserService {
         User user = userRepository.findById(userId);
         User friend = userRepository.findById(friendId);
         if (user == null || friend == null) {
-            throw new IllegalArgumentException("One or both users not found");
+            throw new UserNotFoundException("One or both users not found");
+        }
+        if (userRepository.existsFriendByUserIdAndFriendId(userId, friendId)){
+            throw new UserAlreadyFriendsException("The friend request has already been submitted");
         }
         if (isFriends(userId, friendId)) {
-            throw new RuntimeException("Users are already friends");
+            throw new UserAlreadyFriendsException("Users are already friends");
         }
 
         user.addFriend(friend);
@@ -56,10 +72,10 @@ public class UserService {
         User friend = userRepository.findById(friendId);
 
         if (user == null || friend == null) {
-            throw new IllegalArgumentException("One or both users not found");
+            throw new UserNotFoundException("One or both users not found");
         }
         if (!userRepository.existsFriendByUserIdAndFriendId(userId, friendId)) {
-            throw new RuntimeException("Users are not friends");
+            throw new UsersNotFriendsException("Users are not friends");
         }
 
         user.removeFriend(friend);
@@ -70,12 +86,18 @@ public class UserService {
         return userRepository.existsFriendByUserIdAndFriendId(userId1, userId2) && userRepository.existsFriendByUserIdAndFriendId(userId2, userId1);
     }
 
-    public List<User> findAllFriends(int userId){
-        return userRepository.findFriendsByUserId(userId);
+    public List<UserDtoFriendsList> findAllFriends(int userId) {
+        List<User> friends = userRepository.findFriendsByUserId(userId);
+        return friends.stream()
+                .map(friend -> convertToDto(friend, UserDtoFriendsList.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Game> findAllGames(int userId){
-        return userRepository.findGamesByUserId(userId);
+    public List<GameDtoName> findAllGames(int userId){
+        List<Game> games = userRepository.findGamesByUserId(userId);
+        return games.stream()
+                .map(game -> convertToDto(game, GameDtoName.class))
+                .collect(Collectors.toList());
     }
 
     public boolean existsGameByUserIdAndGameId(int userId, int gameId){
@@ -84,5 +106,20 @@ public class UserService {
 
     public User findById(int id){
         return userRepository.findById(id);
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public List<UserDtoList> findAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> {
+                    UserDtoList userDtoList = convertToDto(user, UserDtoList.class);
+                    userDtoList.setFriendsCount(user.getListFriends().size());
+                    return userDtoList;
+                })
+                .collect(Collectors.toList());
     }
 }

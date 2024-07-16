@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface CommentRepository{
 
-    List<Comment> findAllByDiscussionId( int discussionId);
+    List<Comment> findAllByDiscussionIdOrderByTime( int discussionId);
 
 }

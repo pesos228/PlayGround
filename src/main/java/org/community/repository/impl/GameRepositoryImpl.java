@@ -8,6 +8,7 @@ import org.community.repository.GameRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class GameRepositoryImpl extends AbstractBaseRepository<Game, Integer> implements GameRepository {
@@ -24,8 +25,9 @@ public class GameRepositoryImpl extends AbstractBaseRepository<Game, Integer> im
 
     @Override
     public List<Game> findAllByGenreNames(List<String> names) {
-        TypedQuery<Game> query = entityManager.createQuery("SELECT DISTINCT g FROM Game g JOIN g.genres gen WHERE LOWER(gen.name) IN LOWER(:names)", Game.class);
-        query.setParameter("names", names);
+        List<String> lowerCaseNames = names.stream().map(String::toLowerCase).collect(Collectors.toList());
+        TypedQuery<Game> query = entityManager.createQuery("SELECT DISTINCT g FROM Game g JOIN g.genres gen WHERE LOWER(gen.name) IN :names", Game.class);
+        query.setParameter("names", lowerCaseNames);
         return query.getResultList();
     }
 

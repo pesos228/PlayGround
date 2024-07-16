@@ -15,8 +15,8 @@ public class CommentRepositoryImpl extends AbstractBaseRepository<Comment, Integ
     }
 
     @Override
-    public List<Comment> findAllByDiscussionId(int discussionId) {
-        TypedQuery<Comment> query = entityManager.createQuery("SELECT c FROM Comment c JOIN c.discussion d WHERE d.id = :discussionId", Comment.class);
+    public List<Comment> findAllByDiscussionIdOrderByTime(int discussionId) {
+        TypedQuery<Comment> query = entityManager.createQuery("SELECT c FROM Comment c JOIN c.discussion d WHERE d.id = :discussionId ORDER BY d.createTime DESC", Comment.class);
         query.setParameter("discussionId", discussionId);
         return query.getResultList();
     }

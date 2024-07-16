@@ -20,7 +20,7 @@ public class UserRepositoryImpl extends AbstractBaseRepository<User, Integer> im
 
     @Override
     public List<User> findFriendsByUserId(int id) {
-        TypedQuery<User> query = entityManager.createQuery("SELECT f FROM User u JOIN u.listFriends f WHERE u.id = :id", User.class);
+        TypedQuery<User> query = entityManager.createQuery("SELECT f FROM User u JOIN u.listFriends f WHERE u.id = :id AND u MEMBER OF f.listFriends", User.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

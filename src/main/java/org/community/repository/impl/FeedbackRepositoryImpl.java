@@ -1,5 +1,6 @@
 package org.community.repository.impl;
 
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.community.entities.Feedback;
 import org.community.repository.AbstractBaseRepository;
@@ -36,7 +37,7 @@ public class FeedbackRepositoryImpl extends AbstractBaseRepository<Feedback, Int
             query.setParameter("userId", userId);
             query.setParameter("gameId", gameId);
             return query.getSingleResult();
-        }catch (NullPointerException e){
+        }catch (NoResultException e){
             return null;
         }
     }

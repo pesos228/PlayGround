@@ -9,5 +9,6 @@ public interface DiscussionRepository{
     boolean isDiscussionClosed(int discussionId);
     List<Discussion> findByHeading(String name);
     List<Discussion> findByCreatorId(int id);
-    List<Discussion> findAllOrderByCommentDesc();
+    List<Discussion> findAllByCommunityId(int id);
+    List<Discussion> findAllByCommunityIdAndOrderByTime(int id);
 }

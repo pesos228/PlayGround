@@ -45,8 +45,16 @@ public class DiscussionRepositoryImpl extends AbstractBaseRepository<Discussion,
     }
 
     @Override
-    public List<Discussion> findAllOrderByCommentDesc() {
-        TypedQuery<Discussion> query = entityManager.createQuery("SELECT d FROM Discussion d JOIN d.comments c GROUP BY d.id ORDER BY COUNT(c) DESC", Discussion.class);
+    public List<Discussion> findAllByCommunityId(int id) {
+        TypedQuery<Discussion> query = entityManager.createQuery("SELECT d FROM Discussion d WHERE d.community.id = :communityId",Discussion.class);
+        query.setParameter("communityId", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Discussion> findAllByCommunityIdAndOrderByTime(int id) {
+        TypedQuery<Discussion> query = entityManager.createQuery("SELECT d FROM Discussion d WHERE d.community.id = :communityId ORDER BY d.createTime DESC", Discussion.class);
+        query.setParameter("communityId", id);
         return query.getResultList();
     }
 }
