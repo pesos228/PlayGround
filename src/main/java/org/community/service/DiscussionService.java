@@ -56,20 +56,21 @@ public class DiscussionService extends AbstractService {
         discussionRepository.save(discussion);
     }
     @Transactional
-    public void close(DiscussionDtoClose discussionDtoClose){
+    public void close(DiscussionDtoClose discussionDtoClose) {
         Discussion discussion = discussionRepository.findById(discussionDtoClose.getId());
-        if (discussion == null){
+        if (discussion == null) {
             throw new DiscussionNotFoundException(discussionDtoClose.getId());
         }
+
         User user = userService.findById(discussionDtoClose.getCreatorId());
-        if (user == null){
-            throw new UserNotFoundException("User with ID "+ discussionDtoClose.getCreatorId() + " not found");
+        if (user == null) {
+            throw new UserNotFoundException("User with ID " + discussionDtoClose.getCreatorId() + " not found");
         }
-        if (discussionRepository.existsByCreatorIdAndDiscussionId(discussionDtoClose.getCreatorId(), discussionDtoClose.getCreatorId()) && discussion.getCloseTime() == null){
+
+        if (discussionRepository.existsByCreatorIdAndDiscussionId(discussionDtoClose.getCreatorId(), discussionDtoClose.getId()) && discussion.getCloseTime() == null) {
             discussion.setCloseTime(LocalDateTime.now());
             discussionRepository.save(discussion);
-        }
-        else{
+        } else {
             throw new DiscussionNotOwnedException("There is no such discussion or you are not its owner");
         }
     }

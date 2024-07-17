@@ -6,7 +6,6 @@ import org.community.entities.Game;
 import org.community.entities.User;
 import org.community.repository.AbstractBaseRepository;
 import org.community.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
