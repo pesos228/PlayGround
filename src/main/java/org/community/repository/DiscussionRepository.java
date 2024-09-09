@@ -11,4 +11,6 @@ public interface DiscussionRepository{
     List<Discussion> findByCreatorId(int id);
     List<Discussion> findAllByCommunityId(int id);
     List<Discussion> findAllByCommunityIdAndOrderByTime(int id);
+    void save(Discussion discussion);
+    Discussion findById(int id);
 }

@@ -2,7 +2,7 @@ package org.community.service;
 import org.community.dto.GenreDtoName;
 import org.community.entities.Genre;
 import org.community.exceptions.GenreAlreadyExistsException;
-import org.community.repository.impl.GenreRepositoryImpl;
+import org.community.repository.GenreRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class GenreService extends AbstractService {
 
-    private final GenreRepositoryImpl genreRepository;
+    private final GenreRepository genreRepository;
 
     @Autowired
-    public GenreService(GenreRepositoryImpl genreRepository, ModelMapper modelMapper) {
+    public GenreService(GenreRepository genreRepository, ModelMapper modelMapper) {
         super(modelMapper);
         this.genreRepository = genreRepository;
     }

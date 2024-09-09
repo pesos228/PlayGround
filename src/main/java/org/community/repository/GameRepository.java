@@ -10,4 +10,6 @@ public interface GameRepository{
     Game findByName(String name);
     List<Game> findAllOrderByFeedBackCountDescAndRatingDesc();
     List<Game> findAllOrderByFeedBackUserRating(int id);
+    void save(Game game);
+    Game findById(int id);
 }

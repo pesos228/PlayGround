@@ -9,6 +9,7 @@ import org.community.entities.User;
 import org.community.exceptions.DiscussionClosedException;
 import org.community.exceptions.DiscussionNotFoundException;
 import org.community.exceptions.UserNotFoundException;
+import org.community.repository.CommentRepository;
 import org.community.repository.impl.CommentRepositoryImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ import java.util.stream.Collectors;
 @Service
 public class CommentService extends AbstractService{
 
-    private final CommentRepositoryImpl commentRepository;
+    private final CommentRepository commentRepository;
     private final DiscussionService discussionService;
     private final UserService userService;
 
 
     @Autowired
-    public CommentService(CommentRepositoryImpl commentRepository, DiscussionService discussionService, ModelMapper modelMapper, UserService userService) {
+    public CommentService(CommentRepository commentRepository, DiscussionService discussionService, ModelMapper modelMapper, UserService userService) {
         super(modelMapper);
         this.commentRepository = commentRepository;
         this.discussionService = discussionService;

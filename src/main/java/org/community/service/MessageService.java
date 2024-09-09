@@ -6,6 +6,7 @@ import org.community.entities.User;
 import org.community.exceptions.DialogNotFoundException;
 import org.community.exceptions.UserNotFoundException;
 import org.community.exceptions.UsersNotFriendsException;
+import org.community.repository.MessageRepository;
 import org.community.repository.impl.MessageRepositoryImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,11 @@ import java.util.stream.Collectors;
 @Service
 public class MessageService extends AbstractService {
 
-    private final MessageRepositoryImpl messageRepository;
+    private final MessageRepository messageRepository;
     private final UserService userService;
 
     @Autowired
-    public MessageService(MessageRepositoryImpl messageRepository, UserService userService, ModelMapper modelMapper) {
+    public MessageService(MessageRepository messageRepository, UserService userService, ModelMapper modelMapper) {
         super(modelMapper);
         this.messageRepository = messageRepository;
         this.userService = userService;

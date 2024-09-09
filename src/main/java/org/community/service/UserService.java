@@ -10,6 +10,7 @@ import org.community.exceptions.UserAlreadyExistsException;
 import org.community.exceptions.UserAlreadyFriendsException;
 import org.community.exceptions.UserNotFoundException;
 import org.community.exceptions.UsersNotFriendsException;
+import org.community.repository.UserRepository;
 import org.community.repository.impl.UserRepositoryImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserService extends AbstractService {
 
-    private final UserRepositoryImpl userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepositoryImpl userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         super(modelMapper);
         this.userRepository = userRepository;
     }

@@ -11,8 +11,8 @@ import org.community.exceptions.CommunityNotFoundException;
 import org.community.exceptions.DiscussionNotFoundException;
 import org.community.exceptions.DiscussionNotOwnedException;
 import org.community.exceptions.UserNotFoundException;
-import org.community.repository.impl.CommentRepositoryImpl;
-import org.community.repository.impl.DiscussionRepositoryImpl;
+import org.community.repository.CommentRepository;
+import org.community.repository.DiscussionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 @Service
 public class DiscussionService extends AbstractService {
 
-    private final DiscussionRepositoryImpl discussionRepository;
+    private final DiscussionRepository discussionRepository;
     private final CommunityService communityService;
     private final UserService userService;
-    private final CommentRepositoryImpl commentRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
-    public DiscussionService(DiscussionRepositoryImpl discussionRepository, CommunityService communityService, ModelMapper modelMapper, UserService userService, CommentRepositoryImpl commentRepository) {
+    public DiscussionService(DiscussionRepository discussionRepository, CommunityService communityService, ModelMapper modelMapper, UserService userService, CommentRepository commentRepository) {
         super(modelMapper);
         this.discussionRepository = discussionRepository;
         this.communityService = communityService;

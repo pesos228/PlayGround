@@ -1,46 +1,62 @@
 package org.community.repository.impl;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.community.entities.Feedback;
-import org.community.repository.AbstractBaseRepository;
+import org.community.entities.User;
 import org.community.repository.FeedbackRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class FeedbackRepositoryImpl extends AbstractBaseRepository<Feedback, Integer> implements FeedbackRepository {
+public class FeedbackRepositoryImpl implements FeedbackRepository {
 
-    public FeedbackRepositoryImpl() {
-        super(Feedback.class);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<Feedback> findAllByGameId(int gameId) {
-        TypedQuery<Feedback> query = entityManager.createQuery("SELECT f FROM Feedback f JOIN f.game g WHERE g.id = :gameId", Feedback.class);
-        query.setParameter("gameId", gameId);
-        return query.getResultList();
+        return entityManager.createQuery("SELECT f FROM Feedback f JOIN f.game g WHERE g.id = :gameId", Feedback.class)
+                .setParameter("gameId", gameId)
+                .getResultList();
     }
 
     @Override
     public List<Feedback> findAllByUserId(int userId) {
-        TypedQuery<Feedback> query = entityManager.createQuery("SELECT f FROM Feedback f JOIN f.user u WHERE u.id = :userId", Feedback.class);
-        query.setParameter("userId", userId);
-        return query.getResultList();
+        return entityManager.createQuery("SELECT f FROM Feedback f JOIN f.user u WHERE u.id = :userId", Feedback.class)
+            .setParameter("userId", userId)
+            .getResultList();
     }
 
     @Override
     public Feedback findByGameIdAndUserId(int userId, int gameId) {
         try {
-            TypedQuery<Feedback> query = entityManager.createQuery("SELECT f FROM Feedback f JOIN f.user u JOIN f.game g WHERE u.id = :userId AND g.id = :gameId", Feedback.class);
-            query.setParameter("userId", userId);
-            query.setParameter("gameId", gameId);
-            return query.getSingleResult();
+           return entityManager.createQuery("SELECT f FROM Feedback f JOIN f.user u JOIN f.game g WHERE u.id = :userId AND g.id = :gameId", Feedback.class)
+                .setParameter("userId", userId)
+                .setParameter("gameId", gameId)
+                .getSingleResult();
         }catch (NoResultException e){
             return null;
         }
     }
+
+    @Override
+    public void save(Feedback feedback) {
+        if (entityManager.contains(feedback)) {
+            entityManager.merge(feedback);
+        } else {
+            entityManager.persist(feedback);
+        }
+    }
+
+    @Override
+    public Feedback findById(int id) {
+        return entityManager.find(Feedback.class, id);
+    }
+
     public void deleteById(int id){
         Feedback feedback = entityManager.find(Feedback.class, id);
         if (feedback != null){

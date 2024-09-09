@@ -9,8 +9,8 @@ import org.community.exceptions.FeedbackAlreadyExistsException;
 import org.community.exceptions.FeedbackNotFoundException;
 import org.community.exceptions.GameNotFoundException;
 import org.community.exceptions.UserNotFoundException;
-import org.community.repository.impl.FeedbackRepositoryImpl;
-import org.community.repository.impl.GameRepositoryImpl;
+import org.community.repository.FeedbackRepository;
+import org.community.repository.GameRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 @Service
 public class FeedbackService extends AbstractService {
 
-    private final FeedbackRepositoryImpl feedbackRepository;
-    private final GameRepositoryImpl gameRepository;
+    private final FeedbackRepository feedbackRepository;
+    private final GameRepository gameRepository;
     private final UserService userService;
 
     @Autowired
-    public FeedbackService(FeedbackRepositoryImpl feedbackRepository, GameRepositoryImpl gameRepository, ModelMapper modelMapper, UserService userService) {
+    public FeedbackService(FeedbackRepository feedbackRepository, GameRepository gameRepository, ModelMapper modelMapper, UserService userService) {
         super(modelMapper);
         this.feedbackRepository = feedbackRepository;
         this.gameRepository = gameRepository;

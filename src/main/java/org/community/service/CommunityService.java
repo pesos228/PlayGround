@@ -3,6 +3,8 @@ package org.community.service;
 import org.community.dto.CommunityDto;
 import org.community.entities.Community;
 import org.community.entities.Game;
+import org.community.repository.CommunityRepository;
+import org.community.repository.DiscussionRepository;
 import org.community.repository.impl.CommunityRepositoryImpl;
 import org.community.repository.impl.DiscussionRepositoryImpl;
 import org.modelmapper.ModelMapper;
@@ -16,11 +18,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommunityService extends AbstractService{
-    private final CommunityRepositoryImpl communityRepository;
-    private final DiscussionRepositoryImpl discussionRepository;
+    private final CommunityRepository communityRepository;
+    private final DiscussionRepository discussionRepository;
 
     @Autowired
-    public CommunityService(CommunityRepositoryImpl communityRepository, ModelMapper modelMapper, DiscussionRepositoryImpl discussionRepository) {
+    public CommunityService(CommunityRepository communityRepository, ModelMapper modelMapper, DiscussionRepository discussionRepository) {
         super(modelMapper);
         this.communityRepository = communityRepository;
         this.discussionRepository = discussionRepository;

@@ -8,6 +8,7 @@ import org.community.entities.*;
 import org.community.exceptions.FeedbackNotFoundException;
 import org.community.exceptions.GameAlreadyExistsException;
 import org.community.exceptions.GenreNotFoundException;
+import org.community.repository.GameRepository;
 import org.community.repository.impl.GameRepositoryImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ import java.util.stream.Collectors;
 @Service
 public class GameService extends AbstractService {
 
-    private final GameRepositoryImpl gameRepository;
+    private final GameRepository gameRepository;
     private final GenreService genreService;
     private final FeedbackService feedbackService;
     private final CommunityService communityService;
 
     @Autowired
-    public GameService(GameRepositoryImpl gameRepository, GenreService genreService, FeedbackService feedbackService, CommunityService communityService, ModelMapper modelMapper) {
+    public GameService(GameRepository gameRepository, GenreService genreService, FeedbackService feedbackService, CommunityService communityService, ModelMapper modelMapper) {
         super(modelMapper);
         this.gameRepository = gameRepository;
         this.genreService = genreService;
