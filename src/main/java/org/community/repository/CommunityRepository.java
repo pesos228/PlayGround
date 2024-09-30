@@ -9,5 +9,6 @@ public interface CommunityRepository {
     Community findByGameName(String name);
     List<Community> findAllOrderByDiscussionCountDescAndCommentCountDesc();
     void save(Community community);
+    void incrementDiscussionCount(int communityId);
 
 }

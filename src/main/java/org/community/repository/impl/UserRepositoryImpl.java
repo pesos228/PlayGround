@@ -58,14 +58,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteById(int id){
-        User user = entityManager.find(User.class, id);
-        if (user != null){
-            entityManager.remove(user);
-        }
-    }
-
-    @Override
     public void save(User user){
         if (entityManager.contains(user)) {
             entityManager.merge(user);

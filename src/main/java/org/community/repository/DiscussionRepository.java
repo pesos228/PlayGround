@@ -13,4 +13,6 @@ public interface DiscussionRepository{
     List<Discussion> findAllByCommunityIdAndOrderByTime(int id);
     void save(Discussion discussion);
     Discussion findById(int id);
+    void incrementCommentCount(int discussionId);
+    int countByCommunityId(int communityId);
 }

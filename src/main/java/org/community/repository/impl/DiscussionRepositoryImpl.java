@@ -71,4 +71,19 @@ public class DiscussionRepositoryImpl implements DiscussionRepository {
     public Discussion findById(int id) {
         return entityManager.find(Discussion.class, id);
     }
+
+    @Override
+    public void incrementCommentCount(int discussionId) {
+        entityManager.createQuery("UPDATE Discussion d SET d.commentCount = d.commentCount + 1 WHERE d.id = :discussionId")
+                .setParameter("discussionId", discussionId)
+                .executeUpdate();
+    }
+
+    @Override
+    public int countByCommunityId(int communityId) {
+        return entityManager.createQuery("SELECT COUNT(d) FROM Discussion d WHERE d.community.id = :communityId", Long.class)
+                .setParameter("communityId", communityId)
+                .getSingleResult()
+                .intValue();
+    }
 }

@@ -55,4 +55,11 @@ public class CommunityRepositoryImpl implements CommunityRepository {
             entityManager.persist(community);
         }
     }
+
+    @Override
+    public void incrementDiscussionCount(int communityId) {
+        entityManager.createQuery("UPDATE Community c SET c.discussionCount = c.discussionCount + 1 WHERE c.id = :communityId")
+                .setParameter("communityId", communityId)
+                .executeUpdate();
+    }
 }

@@ -103,4 +103,17 @@ public class Game extends BaseEntity {
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
+
+    @Transient
+    public float getAverageFeedbackRating() {
+        if (feedbacks.isEmpty()) {
+            return -1;
+        }
+        return (float) feedbacks.stream()
+                .mapToDouble(Feedback::getRating)
+                .average()
+                .orElse(0);
+    }
+
+
 }

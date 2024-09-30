@@ -11,7 +11,6 @@ public interface UserRepository {
     List<Game> findGamesByUserId(int id);
     boolean existsGameByUserIdAndGameId(int userId, int gameId);
     User findByEmail(String email);
-    void deleteById(int id);
     void save(User user);
     User findById(int id);
     List<User> findAll();
