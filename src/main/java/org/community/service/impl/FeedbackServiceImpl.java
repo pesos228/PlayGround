@@ -26,14 +26,18 @@ import java.util.stream.Collectors;
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
 
+    private final FeedbackRepository feedbackRepository;
+    private final ModelMapper modelMapper;
+    private final GameService gameService;
+    private final UserService userService;
+
     @Autowired
-    private FeedbackRepository feedbackRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private GameService gameService;
-    @Autowired
-    private UserService userService;
+    public FeedbackServiceImpl(FeedbackRepository feedbackRepository, ModelMapper modelMapper, GameService gameService, UserService userService) {
+        this.feedbackRepository = feedbackRepository;
+        this.modelMapper = modelMapper;
+        this.gameService = gameService;
+        this.userService = userService;
+    }
 
     @Override
     @Transactional

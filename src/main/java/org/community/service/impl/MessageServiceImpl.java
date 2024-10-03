@@ -21,12 +21,16 @@ import java.util.stream.Collectors;
 @Service
 public class MessageServiceImpl implements MessageService {
 
+    private final MessageRepository messageRepository;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private MessageRepository messageRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ModelMapper modelMapper;
+    public MessageServiceImpl(MessageRepository messageRepository, UserService userService, ModelMapper modelMapper) {
+        this.messageRepository = messageRepository;
+        this.userService = userService;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     @Transactional

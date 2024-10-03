@@ -27,14 +27,18 @@ import java.util.stream.Collectors;
 @Service
 public class DiscussionServiceImpl implements DiscussionService {
 
+    private final DiscussionRepository discussionRepository;
+    private final ModelMapper modelMapper;
+    private final CommunityService communityService;
+    private final UserService userService;
+
     @Autowired
-    private DiscussionRepository discussionRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private CommunityService communityService;
-    @Autowired
-    private UserService userService;
+    public DiscussionServiceImpl(DiscussionRepository discussionRepository, ModelMapper modelMapper, CommunityService communityService, UserService userService) {
+        this.discussionRepository = discussionRepository;
+        this.modelMapper = modelMapper;
+        this.communityService = communityService;
+        this.userService = userService;
+    }
 
     @Override
     @Transactional

@@ -28,14 +28,18 @@ import java.util.stream.Collectors;
 @Service
 public class GameServiceImpl implements GameService {
 
+    private final GameRepository gameRepository;
+    private final ModelMapper modelMapper;
+    private final GenreService genreService;
+    private final CommunityService communityService;
+
     @Autowired
-    private GameRepository gameRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private GenreService genreService;
-    @Autowired
-    private CommunityService communityService;
+    public GameServiceImpl(GameRepository gameRepository, ModelMapper modelMapper, GenreService genreService, CommunityService communityService) {
+        this.gameRepository = gameRepository;
+        this.modelMapper = modelMapper;
+        this.genreService = genreService;
+        this.communityService = communityService;
+    }
 
     @Override
     @Transactional

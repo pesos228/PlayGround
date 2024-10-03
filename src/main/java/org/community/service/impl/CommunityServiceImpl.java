@@ -5,7 +5,6 @@ import org.community.entities.Community;
 import org.community.entities.Game;
 import org.community.repository.CommunityRepository;
 import org.community.service.CommunityService;
-import org.community.service.DiscussionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,14 @@ import java.util.stream.Collectors;
 @Service
 public class CommunityServiceImpl implements CommunityService {
 
+    private final CommunityRepository communityRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private CommunityRepository communityRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    public CommunityServiceImpl(CommunityRepository communityRepository, ModelMapper modelMapper) {
+        this.communityRepository = communityRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public Community findByGameId(int id){

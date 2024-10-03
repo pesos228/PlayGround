@@ -16,10 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class GenreServiceImpl implements GenreService {
 
+    private final GenreRepository genreRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private GenreRepository genreRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    public GenreServiceImpl(GenreRepository genreRepository, ModelMapper modelMapper) {
+        this.genreRepository = genreRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     @Transactional

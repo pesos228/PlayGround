@@ -24,14 +24,18 @@ import java.util.stream.Collectors;
 @Service
 public class CommentServiceImpl implements CommentService {
 
+    private final CommentRepository commentRepository;
+    private final UserService userService;
+    private final DiscussionService discussionService;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private DiscussionService discussionService;
-    @Autowired
-    private ModelMapper modelMapper;
+    public CommentServiceImpl(CommentRepository commentRepository, UserService userService, DiscussionService discussionService, ModelMapper modelMapper) {
+        this.commentRepository = commentRepository;
+        this.userService = userService;
+        this.discussionService = discussionService;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     @Transactional

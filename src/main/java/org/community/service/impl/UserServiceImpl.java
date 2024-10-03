@@ -24,10 +24,14 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     @Transactional
